@@ -88,7 +88,7 @@ class FRMetadata {
     var subjects = [String]()
     var descriptions = [String]()
     var publishers = [String]()
-    var format = MediaType.epub.name
+    var format = FRMediaType.epub.name
     var rights = [String]()
     var metaAttributes = [Meta]()
 

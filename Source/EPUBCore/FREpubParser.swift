@@ -128,7 +128,7 @@ class FREpubParser: NSObject, SSZipArchiveDelegate {
         guard let fullPath = xmlDoc.root["rootfiles"]["rootfile"].attributes["full-path"] else {
             throw FolioReaderError.fullPathEmpty
         }
-        opfResource.mediaType = MediaType.by(fileName: fullPath)
+        opfResource.mediaType = FRMediaType.by(fileName: fullPath)
         book.opfResource = opfResource
         resourcesBasePath = bookBasePath.appendingPathComponent(book.opfResource.href.deletingLastPathComponent)
     }
@@ -160,7 +160,7 @@ class FREpubParser: NSObject, SSZipArchiveDelegate {
             resource.properties = $0.attributes["properties"]
             resource.href = $0.attributes["href"]
             resource.fullHref = resourcesBasePath.appendingPathComponent(resource.href).removingPercentEncoding
-            resource.mediaType = MediaType.by(name: $0.attributes["media-type"] ?? "", fileName: resource.href)
+            resource.mediaType = FRMediaType.by(name: $0.attributes["media-type"] ?? "", fileName: resource.href)
             resource.mediaOverlay = $0.attributes["media-overlay"]
 
             // if a .smil file is listed in resources, go parse that file now and save it on book model
@@ -191,9 +191,9 @@ class FREpubParser: NSObject, SSZipArchiveDelegate {
 
         // Specific TOC for ePub 2 and 3
         // Get the first resource with the NCX mediatype
-        if let tocResource = book.resources.findByMediaType(MediaType.ncx) {
+        if let tocResource = book.resources.findByMediaType(FRMediaType.ncx) {
             book.tocResource = tocResource
-        } else if let tocResource = book.resources.findByExtension(MediaType.ncx.defaultExtension) {
+        } else if let tocResource = book.resources.findByExtension(FRMediaType.ncx.defaultExtension) {
             // Non-standard books may use wrong mediatype, fallback with extension
             book.tocResource = tocResource
         } else if let tocResource = book.resources.findByProperty("nav") {
@@ -265,7 +265,7 @@ class FREpubParser: NSObject, SSZipArchiveDelegate {
         let tocPath = resourcesBasePath.appendingPathComponent(tocResource.href)
 
         do {
-            if tocResource.mediaType == MediaType.ncx {
+            if tocResource.mediaType == FRMediaType.ncx {
                 let ncxData = try Data(contentsOf: URL(fileURLWithPath: tocPath), options: .alwaysMapped)
                 let xmlDoc = try AEXMLDocument(xml: ncxData)
                 if let itemsList = xmlDoc.root["navMap"]["navPoint"].all {
@@ -313,7 +313,7 @@ class FREpubParser: NSObject, SSZipArchiveDelegate {
     fileprivate func readTOCReference(_ navpointElement: AEXMLElement) -> FRTocReference? {
         var label = ""
 
-        if book.tocResource?.mediaType == MediaType.ncx {
+        if book.tocResource?.mediaType == FRMediaType.ncx {
             if let labelText = navpointElement["navLabel"]["text"].value {
                 label = labelText
             }

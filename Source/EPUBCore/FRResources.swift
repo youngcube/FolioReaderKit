@@ -26,7 +26,7 @@ open class FRResources: NSObject {
 
      Useful for looking up the table of contents as it's supposed to be the only resource with NCX mediatype.
      */
-    func findByMediaType(_ mediaType: MediaType) -> FRResource? {
+    func findByMediaType(_ mediaType: FRMediaType) -> FRResource? {
         for resource in resources.values {
             if resource.mediaType != nil && resource.mediaType == mediaType {
                 return resource

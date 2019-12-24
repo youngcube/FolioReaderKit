@@ -36,4 +36,5 @@ Pod::Spec.new do |s|
   s.dependency 'FontBlaster', '4.1.0'
   s.dependency 'RealmSwift', '3.17.3'
   s.dependency 'HWPanModal'
+  s.dependency 'FMDB'
 end

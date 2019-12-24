@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WebKit
 
 /// The custom WebView used in each page
 open class FolioReaderWebView: UIWebView {
@@ -30,6 +31,16 @@ open class FolioReaderWebView: UIWebView {
         guard let readerContainer = readerContainer else { return FolioReader() }
         return readerContainer.folioReader
     }
+    
+//    override public init(frame: CGRect, configuration: WKWebViewConfiguration) {
+//        fatalError("use init(frame:readerConfig:book:) instead.")
+//    }
+//
+//    init(frame: CGRect, readerContainer: FolioReaderContainer) {
+//        self.readerContainer = readerContainer
+//
+//        super.init(frame: frame, configuration: WKWebViewConfiguration.init())
+//    }
 
     override init(frame: CGRect) {
         fatalError("use init(frame:readerConfig:book:) instead.")

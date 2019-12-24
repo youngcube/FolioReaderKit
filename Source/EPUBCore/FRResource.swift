@@ -11,7 +11,7 @@ import UIKit
 open class FRResource: NSObject {
     var id: String!
     var properties: String?
-    var mediaType: MediaType!
+    var mediaType: FRMediaType!
     var mediaOverlay: String?
     
     public var href: String!
